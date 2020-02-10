@@ -1,9 +1,12 @@
-#pragma once
+#ifndef STRING_H
+#define STRING_H
+
+#ifdef __cplusplus
 
 class String
 {
 private:
-	size_t m_Length;
+	unsigned int m_Length;
 	char* m_Buffer;
 
 public:
@@ -73,7 +76,7 @@ public:
 	{
 		for (unsigned int i = 0; i < m_Length; i++)
 		{
-			if (m_Buffer[i] == c) return i;
+			if (m_Buffer[i] == c) return (int)i;
 		}
 		return -1;
 	}
@@ -88,7 +91,7 @@ public:
 			tempStr[i] = m_Buffer[i];
 		}
 
-		for (unsigned int i = 0; i < string.Size(); i++)
+		for (int i = 0; i < string.Size(); i++)
 		{
 			tempStr[m_Length + i] = string[i];
 		}
@@ -134,13 +137,13 @@ public:
 		return *this;
 	}
 
-	char operator[] (unsigned index) const
+	char operator[] (unsigned int index) const
 	{
 		if (index >= m_Length) throw 1;
 		return m_Buffer[index];
 	}
 
-	char& operator[] (unsigned index)
+	char& operator[] (unsigned int index)
 	{
 		if (index >= m_Length) throw 1;
 		return m_Buffer[index];
@@ -197,3 +200,7 @@ public:
 	}
 
 };
+
+#endif /* ifdef __cplusplus */
+
+#endif /* STRING_H */
