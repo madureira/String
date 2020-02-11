@@ -137,6 +137,29 @@ public:
 		return *this;
 	}
 
+	int Find(String& string)
+	{
+		int posSearch = 0;
+		for (unsigned int i = 0; i < m_Length - string.Size(); ++i)
+		{
+			if (m_Buffer[i] == string.c_str()[posSearch])
+			{
+				++posSearch;
+				if (posSearch == string.Size())
+				{
+					return i - string.Size();
+				}
+			}
+			else
+			{
+				i -= posSearch;
+				posSearch = 0;
+			}
+		}
+
+		return -1;
+	}
+
 	String& operator=(const String& string)
 	{
 		if (this == &string) return *this;
