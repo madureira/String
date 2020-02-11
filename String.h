@@ -137,6 +137,28 @@ public:
 		return *this;
 	}
 
+	void ToUpperCase()
+	{
+		for (unsigned int i = 0; i < m_Length; i++)
+		{
+			if ('a' <= m_Buffer[i] && m_Buffer[i] <= 'z')
+			{
+				m_Buffer[i] -= ('a' - 'A');
+			}
+		}
+	}
+
+	void ToLowerCase()
+	{
+		for (unsigned int i = 0; i < m_Length; i++)
+		{
+			if ('A' <= m_Buffer[i] && m_Buffer[i] <= 'Z')
+			{
+				m_Buffer[i] += ('a' - 'A');
+			}
+		}
+	}
+
 	char operator[] (unsigned int index) const
 	{
 		if (index >= m_Length) throw 1;
