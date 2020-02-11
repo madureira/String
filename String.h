@@ -119,6 +119,24 @@ public:
 		return this->Concat(other);
 	}
 
+	String& ToUpperCase()
+	{
+		for (unsigned int i = 0; i < m_Length; i++)
+		{
+			if ('a' <= m_Buffer[i] && m_Buffer[i] <= 'z') m_Buffer[i] -= ('a' - 'A');
+		}
+		return *this;
+	}
+
+	String& ToLowerCase()
+	{
+		for (unsigned int i = 0; i < m_Length; i++)
+		{
+			if ('A' <= m_Buffer[i] && m_Buffer[i] <= 'Z') m_Buffer[i] += ('a' - 'A');
+		}
+		return *this;
+	}
+
 	String& operator=(const String& string)
 	{
 		if (this == &string) return *this;
@@ -135,28 +153,6 @@ public:
 		m_Buffer[m_Length] = '\0';
 
 		return *this;
-	}
-
-	void ToUpperCase()
-	{
-		for (unsigned int i = 0; i < m_Length; i++)
-		{
-			if ('a' <= m_Buffer[i] && m_Buffer[i] <= 'z')
-			{
-				m_Buffer[i] -= ('a' - 'A');
-			}
-		}
-	}
-
-	void ToLowerCase()
-	{
-		for (unsigned int i = 0; i < m_Length; i++)
-		{
-			if ('A' <= m_Buffer[i] && m_Buffer[i] <= 'Z')
-			{
-				m_Buffer[i] += ('a' - 'A');
-			}
-		}
 	}
 
 	char operator[] (unsigned int index) const
