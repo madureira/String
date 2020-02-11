@@ -1,3 +1,5 @@
+#include <iostream>
+
 #ifndef STRING_H
 #define STRING_H
 
@@ -24,7 +26,10 @@ public:
 			while (cString[n] != '\0') n++;
 			m_Length = n;
 			m_Buffer = new char[m_Length + 1];
-			for (unsigned int i = 0; i < m_Length; i++) m_Buffer[i] = cString[i];
+			for (unsigned int i = 0; i < m_Length; i++)
+			{
+				m_Buffer[i] = cString[i];
+			}
 			m_Buffer[m_Length] = '\0';
 		}
 		else
@@ -123,7 +128,10 @@ public:
 	{
 		for (unsigned int i = 0; i < m_Length; i++)
 		{
-			if ('a' <= m_Buffer[i] && m_Buffer[i] <= 'z') m_Buffer[i] -= ('a' - 'A');
+			if ('a' <= m_Buffer[i] && m_Buffer[i] <= 'z')
+			{
+				m_Buffer[i] -= ('a' - 'A');
+			}
 		}
 		return *this;
 	}
@@ -132,7 +140,10 @@ public:
 	{
 		for (unsigned int i = 0; i < m_Length; i++)
 		{
-			if ('A' <= m_Buffer[i] && m_Buffer[i] <= 'Z') m_Buffer[i] += ('a' - 'A');
+			if ('A' <= m_Buffer[i] && m_Buffer[i] <= 'Z')
+			{
+				m_Buffer[i] += ('a' - 'A');
+			}
 		}
 		return *this;
 	}
@@ -140,14 +151,14 @@ public:
 	int Find(String& string)
 	{
 		int posSearch = 0;
-		for (unsigned int i = 0; i < m_Length - string.Size(); ++i)
+		for (unsigned int i = 0; i < m_Length; ++i)
 		{
 			if (m_Buffer[i] == string.c_str()[posSearch])
 			{
 				++posSearch;
 				if (posSearch == string.Size())
 				{
-					return i - string.Size();
+					return i - (string.Size() - 1);
 				}
 			}
 			else
@@ -158,6 +169,12 @@ public:
 		}
 
 		return -1;
+	}
+
+	int Find(const char* cString)
+	{
+		String string(cString);
+		return this->Find(string);
 	}
 
 	String& operator=(const String& string)
