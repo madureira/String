@@ -1,5 +1,3 @@
-#include <iostream>
-
 #ifndef STRING_H
 #define STRING_H
 
@@ -88,29 +86,30 @@ public:
 
 	String& Concat(const String& string)
 	{
-		unsigned int len = m_Length + string.Size();
-		char* tempStr = new char[len + 1];
+		int stringSize = string.Size();
+		unsigned int newLength = m_Length + stringSize;
+		char* tempStr = new char[newLength + 1];
 
 		for (unsigned int i = 0; i < m_Length; i++)
 		{
 			tempStr[i] = m_Buffer[i];
 		}
 
-		for (int i = 0; i < string.Size(); i++)
+		for (int i = 0; i < stringSize; i++)
 		{
 			tempStr[m_Length + i] = string[i];
 		}
 
 		delete[] m_Buffer;
-		m_Length = len;
-		m_Buffer = new char[len + 1];
+		m_Length = newLength;
+		m_Buffer = new char[newLength + 1];
 
 		for (unsigned int i = 0; i < m_Length; i++)
 		{
 			m_Buffer[i] = tempStr[i];
 		}
 
-		m_Buffer[len] = '\0';
+		m_Buffer[newLength] = '\0';
 
 		delete[] tempStr;
 		tempStr = nullptr;
@@ -150,15 +149,22 @@ public:
 
 	int Find(String& string)
 	{
+		int stringSize = string.Size();
+
+		if (stringSize == 0)
+		{
+			return -1;
+		}
+
 		int posSearch = 0;
 		for (unsigned int i = 0; i < m_Length; ++i)
 		{
 			if (m_Buffer[i] == string.c_str()[posSearch])
 			{
 				++posSearch;
-				if (posSearch == string.Size())
+				if (posSearch == stringSize)
 				{
-					return i - (string.Size() - 1);
+					return i - (stringSize - 1);
 				}
 			}
 			else
@@ -175,6 +181,87 @@ public:
 	{
 		String string(cString);
 		return this->Find(string);
+	}
+
+	String& Replace(String& target, String& replacement)
+	{
+		int startAt = this->Find(target);
+
+		if (startAt == -1)
+		{
+			return *this;
+		}
+
+		int replacementSize = replacement.Size();
+		int targetSize = target.Size();
+		int newLength = m_Length + replacementSize - targetSize;
+		char* tempStr = new char[newLength + 1];
+		int intervalIndex = 0;
+
+		if (replacementSize > 0)
+		{
+			for (int i = 0; i < newLength; i++)
+			{
+				if (i >= startAt && intervalIndex < replacementSize)
+				{
+					tempStr[i] = replacement[intervalIndex];
+					intervalIndex++;
+				}
+				else
+				{
+					tempStr[i] = m_Buffer[intervalIndex > 0 ? (i + targetSize - intervalIndex) : i];
+				}
+			}
+		}
+		else
+		{
+			for (int i = 0; i < newLength; i++)
+			{
+				if (i >= startAt && intervalIndex < targetSize)
+				{
+					tempStr[i] = m_Buffer[i + targetSize];
+					intervalIndex++;
+				}
+				else
+				{
+					tempStr[i] = m_Buffer[intervalIndex > 0 ? (i + targetSize) : i];
+				}
+			}
+		}
+
+		delete[] m_Buffer;
+		m_Length = newLength;
+		m_Buffer = new char[newLength + 1];
+
+		for (unsigned int i = 0; i < m_Length; i++)
+		{
+			m_Buffer[i] = tempStr[i];
+		}
+		m_Buffer[newLength] = '\0';
+
+		delete[] tempStr;
+		tempStr = nullptr;
+
+		return *this;
+	}
+
+	String& Replace(String& target, const char* replacement)
+	{
+		String strReplacement(replacement);
+		return this->Replace(target, strReplacement);
+	}
+
+	String& Replace(const char* target, String& replacement)
+	{
+		String strTarget(target);
+		return this->Replace(strTarget, replacement);
+	}
+
+	String& Replace(const char* target, const char* replacement)
+	{
+		String strTarget(target);
+		String strReplacement(replacement);
+		return this->Replace(strTarget, strReplacement);
 	}
 
 	String& operator=(const String& string)
@@ -195,13 +282,13 @@ public:
 		return *this;
 	}
 
-	char operator[] (unsigned int index) const
+	char operator[](unsigned int index) const
 	{
 		if (index >= m_Length) throw 1;
 		return m_Buffer[index];
 	}
 
-	char& operator[] (unsigned int index)
+	char& operator[](unsigned int index)
 	{
 		if (index >= m_Length) throw 1;
 		return m_Buffer[index];
