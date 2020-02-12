@@ -19,9 +19,9 @@ String text("Hello, world!");
 
 | Methods                                              | Return             | Description                                                                                                                  |
 | ---------------------------------------------------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
-| String()                                             | Instance of String | Create an empty new instance of the String class.                                                                            |
-| String(String& string)                               | Instance of String | Create a new instance of the String class based on an existent String reference.                                             |
-| String(const char* cString)                          | Instance of String | Create a new instance of the String class based on an existent C string pointer.                                             |
+| String()                                             | Instance of String | (Constructor) Create an empty new instance of the String class.                                                              |
+| String(String& string)                               | Instance of String | (Constructor) Create a new instance of the String class based on an existent String reference.                               |
+| String(const char* cString)                          | Instance of String | (Constructor) Create a new instance of the String class based on an existent C string pointer.                               |
 | Size()                                               | int                | Returns the String length.                                                                                                   |
 | c_str()                                              | const char*        | Returns the C string pointer.                                                                                                |
 | Equals(String& other)                                | bool               | Compare the current String with another and return true if they are the same or false, otherwise.                            |
