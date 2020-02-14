@@ -37,3 +37,119 @@ String text("Hello, world!");
 | Replace(String& target, const char* replacement)     | String&            | Searches a string for a specified value, and replace it by another given string and returns its reference.                   |
 | Replace(const char* target, String& replacement)     | String&            | Searches a string for a specified value, and replace it by another given string and returns its reference.                   |
 | Replace(const char* target, const char* replacement) | String&            | Searches a string for a specified value, and replace it by another given string and returns its reference.                   |
+
+## Examples
+
+### Creating a empty String:
+
+```cpp
+String emptyString;
+```
+
+### Creating a new String:
+
+```cpp
+String text("foo");
+```
+
+### Copy existent String value by constructor:
+
+```cpp
+String text("foo");
+
+String anotherText(text);
+```
+
+### Get the length of a String:
+
+```cpp
+String text("foo");
+
+text.Size(); // 3
+```
+
+### Print the String:
+
+```cpp
+String text("foo");
+
+std::cout << text.c_str() << std::endl; // foo
+
+printf("%s", text.c_str()); // foo
+```
+
+### Comparing Strings:
+
+```cpp
+String foo("foo");
+
+String bar("bar");
+
+bool isEquals = foo.Equals(bar); // false
+
+isEquals = foo.Equals("bar"); // false
+
+isEquals = (foo == bar); // false
+
+isEquals = (foo == "bar"); // false
+
+isEquals = (foo.Equals("foo")); // true
+
+isEquals = (bar == "bar"); // true
+```
+
+### Retrieving the position of the first occurrence char:
+
+```cpp
+String text("Hello, world!");
+
+int index = text.Index(','); // 5
+
+int notfound = text.Index('$'); // -1
+```
+
+### Concatenate Strings:
+
+```cpp
+String foo("foo");
+String bar(" bar");
+
+foo.Concat(bar).Concat("!!!");
+
+printf("%s", foo); // foo bar!!!
+```
+
+### Converts a String to uppercase letters:
+
+```cpp
+String text("foo");
+text.ToUpperCase(); // FOO
+```
+
+### Converts a String to lowercase letters:
+
+```cpp
+String text("BAR");
+text.ToUpperCase(); // bar
+```
+
+### Finds the position of the first occurrence of a value in a String:
+
+```cpp
+String text("Some amazing text");
+
+int index = text.Find("amazing"); // 5
+
+String another("Some");
+int position = text.Find(another); // 0
+
+int notfound = text.Find("xyz"); // -1
+```
+
+### Replace the position of the first occurrence of value by another one:
+
+```cpp
+String text("Some amazing text");
+
+text.Replace("amazing", "silly"); // Some silly text
+```
