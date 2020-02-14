@@ -49,7 +49,21 @@ String emptyString;
 ### Creating a new String:
 
 ```cpp
-String text("foo");
+String foo("foo");
+
+String bar = "bar";
+```
+
+### String assignment by reference:
+
+```cpp
+String foo("foo");
+
+String bar("bar");
+
+foo = bar;
+
+printf("%s", foo.c_str()); // bar
 ```
 
 ### Copy existent String value by constructor:
@@ -57,7 +71,7 @@ String text("foo");
 ```cpp
 String text("foo");
 
-String anotherText(text);
+String anotherText(text); // foo
 ```
 
 ### Get the length of a String:
@@ -82,20 +96,21 @@ printf("%s", text.c_str()); // foo
 
 ```cpp
 String foo("foo");
-
 String bar("bar");
 
 bool isEquals = foo.Equals(bar); // false
 
 isEquals = foo.Equals("bar"); // false
 
+isEquals = foo.Equals("foo"); // true
+
 isEquals = (foo == bar); // false
 
 isEquals = (foo == "bar"); // false
 
-isEquals = (foo.Equals("foo")); // true
-
 isEquals = (bar == "bar"); // true
+
+isEquals = (bar != foo); // true
 ```
 
 ### Retrieving the position of the first occurrence char:
@@ -108,6 +123,14 @@ int index = text.Index(','); // 5
 int notfound = text.Index('$'); // -1
 ```
 
+### Retrieving char by index:
+
+```cpp
+String text("Hello, world!");
+
+char c = text[7]; // w
+```
+
 ### Concatenate Strings:
 
 ```cpp
@@ -116,13 +139,28 @@ String bar(" bar");
 
 foo.Concat(bar).Concat("!!!");
 
-printf("%s", foo); // foo bar!!!
+printf("%s", foo.c_str()); // foo bar!!!
+
+String hello("hello, ");
+String world("world!!!");
+
+hello += world;
+
+printf("%s", hello.c_str()); // hello, world!!!
+
+String amazing("amazing ");
+String text("text");
+
+String message = amazing + text;
+
+printf("%s", message.c_str()); // amazing text
 ```
 
 ### Converts a String to uppercase letters:
 
 ```cpp
 String text("foo");
+
 text.ToUpperCase(); // FOO
 ```
 
@@ -130,7 +168,8 @@ text.ToUpperCase(); // FOO
 
 ```cpp
 String text("BAR");
-text.ToUpperCase(); // bar
+
+text.ToLowerCase(); // bar
 ```
 
 ### Finds the position of the first occurrence of a value in a String:
@@ -141,6 +180,7 @@ String text("Some amazing text");
 int index = text.Find("amazing"); // 5
 
 String another("Some");
+
 int position = text.Find(another); // 0
 
 int notfound = text.Find("xyz"); // -1
