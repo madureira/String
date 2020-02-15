@@ -21,14 +21,12 @@ public:
 		if (cString)
 		{
 			unsigned int n = 0;
+			unsigned int i = 0;
 			while (cString[n] != '\0') n++;
+			m_Buffer = new char[n + 1];
+			for (i; i < n; i++) m_Buffer[i] = cString[i];
+			m_Buffer[n] = '\0';
 			m_Length = n;
-			m_Buffer = new char[m_Length + 1];
-			for (unsigned int i = 0; i < m_Length; i++)
-			{
-				m_Buffer[i] = cString[i];
-			}
-			m_Buffer[m_Length] = '\0';
 		}
 		else
 		{
@@ -39,10 +37,12 @@ public:
 
 	String(const String& string)
 	{
-		m_Length = string.Size();
-		m_Buffer = new char[m_Length + 1];
-		for (unsigned int i = 0; i < m_Length; i++) m_Buffer[i] = string[i];
-		m_Buffer[m_Length] = '\0';
+		int i = 0;
+		int len = string.Size();
+		m_Buffer = new char[len + 1];
+		for (i; i < len; i++) m_Buffer[i] = string[i];
+		m_Length = len;
+		m_Buffer[len] = '\0';
 	}
 
 	~String()
@@ -77,10 +77,9 @@ public:
 
 	int Index(char c) const
 	{
-		for (unsigned int i = 0; i < m_Length; i++)
-		{
+		unsigned int i = 0;
+		for (i; i < m_Length; i++)
 			if (m_Buffer[i] == c) return (int)i;
-		}
 		return -1;
 	}
 
@@ -88,27 +87,28 @@ public:
 	{
 		int stringSize = string.Size();
 		unsigned int newLength = m_Length + stringSize;
-		char* tempStr = new char[newLength + 1];
+		int len = newLength + 1;
+		char* tempStr = new char[len];
 
-		for (unsigned int i = 0; i < m_Length; i++)
+		for (unsigned int i = 0; i < newLength; i++)
 		{
 			tempStr[i] = m_Buffer[i];
 		}
 
 		for (int i = 0; i < stringSize; i++)
 		{
-			tempStr[m_Length + i] = string[i];
+			tempStr[newLength + i] = string[i];
 		}
 
 		delete[] m_Buffer;
-		m_Length = newLength;
-		m_Buffer = new char[newLength + 1];
+		m_Buffer = new char[len];
 
-		for (unsigned int i = 0; i < m_Length; i++)
+		for (unsigned int i = 0; i < newLength; i++)
 		{
 			m_Buffer[i] = tempStr[i];
 		}
 
+		m_Length = newLength;
 		m_Buffer[newLength] = '\0';
 
 		delete[] tempStr;
@@ -125,11 +125,13 @@ public:
 
 	String& ToUpperCase()
 	{
-		for (unsigned int i = 0; i < m_Length; i++)
+		char diff = ('a' - 'A');
+		unsigned int i = 0;
+		for (i; i < m_Length; i++)
 		{
 			if ('a' <= m_Buffer[i] && m_Buffer[i] <= 'z')
 			{
-				m_Buffer[i] -= ('a' - 'A');
+				m_Buffer[i] -= diff;
 			}
 		}
 		return *this;
@@ -149,23 +151,19 @@ public:
 
 	int Find(String& string)
 	{
-		int stringSize = string.Size();
+		int strSize = string.Size();
 
-		if (stringSize == 0)
-		{
-			return -1;
-		}
+		if (strSize == 0) return -1;
 
+		int len = strSize - 1;
 		int posSearch = 0;
-		for (unsigned int i = 0; i < m_Length; ++i)
+		unsigned int i = 0;
+		for (i; i < m_Length; ++i)
 		{
 			if (m_Buffer[i] == string.c_str()[posSearch])
 			{
 				++posSearch;
-				if (posSearch == stringSize)
-				{
-					return i - (stringSize - 1);
-				}
+				if (posSearch == strSize) return i - len;
 			}
 			else
 			{
@@ -195,7 +193,8 @@ public:
 		int replacementSize = replacement.Size();
 		int targetSize = target.Size();
 		int newLength = m_Length + replacementSize - targetSize;
-		char* tempStr = new char[newLength + 1];
+		int len = newLength + 1;
+		char* tempStr = new char[len];
 		int intervalIndex = 0;
 
 		if (replacementSize > 0)
@@ -231,7 +230,7 @@ public:
 
 		delete[] m_Buffer;
 		m_Length = newLength;
-		m_Buffer = new char[newLength + 1];
+		m_Buffer = new char[len];
 
 		for (unsigned int i = 0; i < m_Length; i++)
 		{
@@ -268,16 +267,15 @@ public:
 	{
 		if (this == &string) return *this;
 
+		int len = string.Size();
 		delete[] m_Buffer;
-		m_Length = string.Size();
-		m_Buffer = new char[m_Length + 1];
+		m_Buffer = new char[len + 1];
 
-		for (unsigned int i = 0; i < m_Length; i++)
-		{
-			m_Buffer[i] = string[i];
-		}
+		int i = 0;
+		for (i; i < len; i++) m_Buffer[i] = string[i];
 
-		m_Buffer[m_Length] = '\0';
+		m_Length = len;
+		m_Buffer[len] = '\0';
 
 		return *this;
 	}
