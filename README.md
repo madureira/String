@@ -38,6 +38,8 @@ String text("Hello, world!");
 | Replace(const char* target, String& replacement)     | String&            | Searches a string for a specified value, and replace it by another given string and returns its reference.                   |
 | Replace(const char* target, const char* replacement) | String&            | Searches a string for a specified value, and replace it by another given string and returns its reference.                   |
 
+## [Benchmark](http://quick-bench.com/DYwVJg3S2xX-WIz9ZZruTghxb5A)
+
 ## Examples
 
 ### Creating a empty String:
